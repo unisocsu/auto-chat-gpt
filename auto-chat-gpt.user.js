@@ -22,6 +22,7 @@
     pollMs: 1200,
     settleMs: 2200,
     notificationTitle: "ChatGPT ממתין להנחיה",
+    testSendOnStartup: true,
   };
 
   let lastAssistantText = "";
@@ -171,5 +172,18 @@
   }
 
   setInterval(process, CONFIG.pollMs);
+
+  // One-time startup test: send "תמשיך" once after the page is ready.
+  if (CONFIG.testSendOnStartup) {
+    setTimeout(async () => {
+      const sent = await sendContinue();
+      console.log(
+        sent
+          ? "[AutoChatGPT] Startup test: sent \"תמשיך\" once."
+          : "[AutoChatGPT] Startup test: composer not ready."
+      );
+    }, 3000);
+  }
+
   console.log("[AutoChatGPT] Running.");
 })();
